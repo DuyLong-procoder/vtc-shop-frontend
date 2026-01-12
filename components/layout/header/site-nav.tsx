@@ -14,9 +14,10 @@ import {
   Gem,
 } from "lucide-react";
 
+type DropdownLink = { label: string; href: string };
 type MenuItem =
-  | { label: string; href: string; dropdown?: undefined }
-  | { label: string; dropdown: { label: string; href: string }[]; href?: undefined };
+  | { label: string; href: string } // ✅ link item (KHÔNG có dropdown)
+  | { label: string; dropdown: DropdownLink[] }; // ✅ dropdown item (KHÔNG có href)
 
 export default function HeaderNavigation() {
   const pathname = usePathname();
@@ -61,21 +62,17 @@ export default function HeaderNavigation() {
         { label: "Blog Details", href: "/blog-details" },
       ],
     },
-    // ✅ Mẫu có Contact riêng
     { label: "Contact", href: "/contact" },
   ];
 
   return (
     <nav className="bg-white border-b relative z-50 overflow-visible">
-      {/* ✅ FIX vỡ form: overflow-hidden + min-w-0 */}
       <div className="container mx-auto px-4 flex items-center h-16 min-w-0 overflow-visible">
-
         {/* Categories button */}
         <div className="relative group shrink-0 overflow-visible">
           <button
             type="button"
-            className="bg-[#C3293E] text-white flex items-center gap-3 px-6 h-12 rounded-t-lg font-semibold min-w-[260px]
-                       tracking-wide"
+            className="bg-[#C3293E] text-white flex items-center gap-3 px-6 h-12 rounded-t-lg font-semibold min-w-[260px] tracking-wide"
           >
             <Menu className="w-5 h-5" />
             <span className="uppercase text-[13px]">Categories</span>
@@ -87,10 +84,14 @@ export default function HeaderNavigation() {
           </button>
 
           {/* CATEGORY LIST */}
-          <div className={`absolute top-full left-0 w-[260px] bg-white border shadow-xl py-2 z-[999] 
-  ${isHomePage ? 'block' : 'hidden group-hover:block animate-in fade-in slide-in-from-top-2 duration-200'}`}
->
-
+          <div
+            className={`absolute top-full left-0 w-[260px] bg-white border shadow-xl py-2 z-[999]
+              ${
+                isHomePage
+                  ? "block"
+                  : "hidden group-hover:block animate-in fade-in slide-in-from-top-2 duration-200"
+              }`}
+          >
             {categories.map((cat, idx) => (
               <Link
                 key={idx}
@@ -126,7 +127,6 @@ export default function HeaderNavigation() {
         </div>
 
         {/* MAIN NAVIGATION */}
-        {/* ✅ FIX vỡ: cho khu này “co lại được” + không đẩy tràn */}
         <ul className="hidden lg:flex items-center gap-8 ml-10 flex-1 min-w-0 whitespace-nowrap">
           {menuItems.map((item) => (
             <li key={item.label} className="relative group h-16 flex items-center">
@@ -134,8 +134,7 @@ export default function HeaderNavigation() {
                 <>
                   <button
                     type="button"
-                    className="flex items-center gap-1 text-gray-800 hover:text-[#C3293E] transition-colors
-                               font-semibold uppercase tracking-wide text-[13px]"
+                    className="flex items-center gap-1 text-gray-800 hover:text-[#C3293E] transition-colors font-semibold uppercase tracking-wide text-[13px]"
                   >
                     {item.label}
                     <ChevronDown className="w-3 h-3 text-gray-400 group-hover:rotate-180 transition-transform" />
@@ -156,8 +155,7 @@ export default function HeaderNavigation() {
               ) : (
                 <Link
                   href={item.href}
-                  className="text-gray-800 hover:text-[#C3293E] transition-colors
-                             font-semibold uppercase tracking-wide text-[13px]"
+                  className="text-gray-800 hover:text-[#C3293E] transition-colors font-semibold uppercase tracking-wide text-[13px]"
                 >
                   {item.label}
                 </Link>
