@@ -21,7 +21,7 @@
     "next": "16.0.10",
     "react": "19.2.1",
     "react-dom": "19.2.1",
-    "react-hook-form": "^7.70.0",
+    "react-hook-form": "^7.71.0",
     "react-hot-toast": "^2.6.0",
     "swiper": "^12.0.3",
     "tailwind-merge": "^3.4.0",
