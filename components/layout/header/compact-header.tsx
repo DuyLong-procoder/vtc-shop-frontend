@@ -7,18 +7,33 @@ import { ChevronDown, ShoppingCart, User, Heart, Search } from "lucide-react";
 import { useBasket } from "@/lib/basket/basket-store";
 import BasketDrawer from "@/components/basket/basket-drawer";
 
-
 export default function CompactHeader() {
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { getBasketCount } = useBasket();
 
-
   const menuItems = [
-    { label: "Home", dropdown: [{ label: "Wooden Home", href: "/" }, { label: "Fashion Home", href: "/index-2" }] },
-    { label: "Shop", dropdown: [{ label: "Shop List", href: "/shop" }, { label: "Cart Page", href: "/cart" }] },
-    { label: "Pages", dropdown: [{ label: "About", href: "/about" }, { label: "Contact", href: "/contact" }] },
+    {
+      label: "Home",
+      dropdown: [
+        { label: "Wooden Home", href: "/filter?category=Wooden" },
+        { label: "Fashion Home", href: "/filter?preset=fashion" },
+      ],
+    },
+    {
+      label: "Shop",
+      dropdown: [
+        { label: "Shop List", href: "/shop" },
+        { label: "Cart Page", href: "/cart" },
+      ],
+    },
+    {
+      label: "Pages",
+      dropdown: [
+        { label: "About", href: "/about" },
+        { label: "Contact", href: "/contact" },
+      ],
+    },
     { label: "Blog", dropdown: [{ label: "Blog Standard", href: "/blog" }] },
   ];
 
@@ -44,43 +59,36 @@ export default function CompactHeader() {
           <nav className="hidden lg:block ml-10">
             <ul className="flex items-center gap-10">
               {menuItems.map((item) => (
-                <li
-                  key={item.label}
-                  className="relative flex items-center h-20"
-                  onMouseEnter={() => setOpenDropdown(item.label)}
-                  onMouseLeave={() => setOpenDropdown(null)}
-                >
+                <li key={item.label} className="relative group flex items-center h-20">
+                  {/* Trigger */}
                   <button
                     type="button"
-                    className={`flex items-center gap-1 text-[15px] font-bold transition-colors ${
-                      openDropdown === item.label ? "text-[#C12744]" : "text-black"
-                    }`}
+                    className="flex items-center gap-1 text-[15px] font-bold text-black group-hover:text-[#C12744] transition-colors"
                   >
                     {item.label}
-                    <ChevronDown
-                      className={`w-4 h-4 transition-transform ${
-                        openDropdown === item.label ? "rotate-180" : ""
-                      }`}
-                    />
+                    <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
                   </button>
 
-                  {openDropdown === item.label && (
-                    <div className="absolute top-[80%] left-0 w-52 bg-white border border-gray-100 shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2">
-                      {item.dropdown.map((subItem) => (
-                        <Link
-                          key={subItem.label}
-                          href={subItem.href}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#C12744] transition-colors"
-                        >
-                          {subItem.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
+                  {/* Dropdown */}
+                  <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-gray-100 shadow-xl py-2 z-50 hidden group-hover:block">
+                    {item.dropdown.map((subItem) => (
+                      <Link
+                        key={subItem.label}
+                        href={subItem.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#C12744] transition-colors"
+                      >
+                        {subItem.label}
+                      </Link>
+                    ))}
+                  </div>
                 </li>
               ))}
+
               <li>
-                <Link href="/contact" className="text-[15px] font-bold text-black hover:text-[#C12744]">
+                <Link
+                  href="/contact"
+                  className="text-[15px] font-bold text-black hover:text-[#C12744]"
+                >
                   Contact
                 </Link>
               </li>
@@ -109,7 +117,10 @@ export default function CompactHeader() {
             </Link>
 
             {/* Wishlist */}
-            <Link href="/wishlist" className="relative p-2 hover:text-[#C12744] transition-colors">
+            <Link
+              href="/wishlist"
+              className="relative p-2 hover:text-[#C12744] transition-colors"
+            >
               <Heart className="w-6 h-6" />
               <span className="absolute top-0 right-0 bg-[#C12744] text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold border-2 border-white">
                 0
@@ -132,7 +143,6 @@ export default function CompactHeader() {
       </header>
 
       <BasketDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-
     </>
   );
 }

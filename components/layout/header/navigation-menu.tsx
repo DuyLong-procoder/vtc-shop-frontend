@@ -13,7 +13,7 @@ export default function NavigationMenu() {
     {
       label: 'Home',
       dropdown: [
-        { label: 'Wooden Home', href: '/' },
+        { label: 'Wooden Home', href: '/filter?category=Wooden' },
         { label: 'Fashion Home', href: '/index-2' },
         { label: 'Furniture Home', href: '/index-3' },
         { label: 'Cosmetics Home', href: '/index-4' },

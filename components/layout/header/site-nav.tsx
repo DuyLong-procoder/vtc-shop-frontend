@@ -37,7 +37,7 @@ export default function HeaderNavigation() {
     {
       label: "Home",
       dropdown: [
-        { label: "Wooden Home", href: "/" },
+        { label: "Wooden Home", href: "/filter?category=Wooden" },
         { label: "Fashion Home", href: "/index-2" },
       ],
     },

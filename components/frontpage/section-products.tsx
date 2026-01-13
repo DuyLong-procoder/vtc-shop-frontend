@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Layout } from "lucide-react";
 
 import ProductCard from "@/components/product/product-card";
-import { products } from "@/data/products";
+import { products } from "@/data/catalog";
 import type { Product } from "@/types";
 
 type Extra = Product & { color?: string; brand?: string };
